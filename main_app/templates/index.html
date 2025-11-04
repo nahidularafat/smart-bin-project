@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Recycle Bin - Home</title>
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #2c3e50;
+            --bg-light: #f4f7f6;
+            --text-dark: #333;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+        h1, h2, h3 { color: var(--secondary-color); }
+        section { padding: 60px 0; }
+        header {
+            background: #ffffff;
+            color: var(--secondary-color);
+            padding: 20px 0;
+            border-bottom: 2px solid var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header #logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: var(--secondary-color);
+        }
+        header nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+        }
+        header nav ul li { margin-left: 20px; }
+        header nav ul li a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        header nav ul li a:hover { color: var(--primary-color); }
+        #hero {
+            background: var(--secondary-color);
+            color: #fff;
+            text-align: center;
+            padding: 100px 0;
+        }
+        #hero h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        #hero p { font-size: 20px; margin-bottom: 30px; }
+        .cta-button {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        .cta-button:hover { background: #27ae60; }
+        #download { background: #fff; text-align: center; }
+        #download .container { max-width: 700px; }
+        #download img { max-width: 150px; margin-bottom: 20px; }
+        #team { text-align: center; }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .team-member {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 4px solid var(--primary-color);
+        }
+        .team-member h3 { font-size: 22px; margin-bottom: 5px; }
+        .team-member p.title {
+            font-size: 16px;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        footer {
+            background: var(--secondary-color);
+            color: #fff;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .team-grid { grid-template-columns: 1fr; }
+            header .container { flex-direction: column; }
+            header nav ul { margin-top: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="#" id="logo">♻️ SmartBin</a>
+            <nav>
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#download">App</a></li>
+                    <li><a href="#team">Team</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="container">
+            <h1>Smart Recycle Bin</h1>
+            <p>আমাদের স্মার্ট ডাস্টবিন প্রজেক্টে স্বাগতম। পরিবেশ রক্ষায় এটি একটি আধুনিক সমাধান।</p>
+            <a href="#download" class="cta-button">Download App</a>
+        </div>
+    </section>
+
+    <section id="download">
+        <div class="container">
+            <h2>Get The Mobile App</h2>
+            <p>আপনার স্মার্ট বিন নিরীক্ষণ করতে এবং পুরস্কার পেতে আমাদের অফিসিয়াল অ্যান্ড্রয়েড অ্যাপটি ডাউনলোড করুন।</p>
+            <br><br>
+            
+            {% if app_file %}
+                <a href="{{ app_file.apk_file.url }}" class="cta-button">Download APK ({{ app_file.version_name }})</a>
+            {% else %}
+                <a href="#" class="cta-button">App Coming Soon</a>
+            {% endif %}
+        </div>
+    </section>
+
+    <section id="team">
+        <div class="container">
+            <h2>Our Team</h2>
+            <p>আমরা এই প্রজেক্টের পেছনে আছি</p>
+
+            <div class="team-grid">
+                {% if ceo %}
+                <div class="team-member">
+                    <img src="{{ ceo.image.url }}" alt="{{ ceo.name }} Photo">
+                    <h3>{{ ceo.name }}</h3>
+                    <p class="title">{{ ceo.get_role_display }}</p>
+                    <p>{{ ceo.bio }}</p>
+                </div>
+                {% endif %}
+
+                {% if cto %}
+                <div class="team-member">
+                    <img src="{{ cto.image.url }}" alt="{{ cto.name }} Photo">
+                    <h3>{{ cto.name }}</h3>
+                    <p class="title">{{ cto.get_role_display }}</p>
+                    <p>{{ cto.bio }}</p>
+                </div>
+                {% endif %}
+
+                {% if cfo %}
+                <div class="team-member">
+                    <img src="{{ cfo.image.url }}" alt="{{ cfo.name }} Photo">
+                    <h3>{{ cfo.name }}</h3>
+                    <p class="title">{{ cfo.get_role_display }}</p>
+                    <p>{{ cfo.bio }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Smart Recycle Bin. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
